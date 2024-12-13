@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s  # Intervalle global pour collecter les métriques (par défaut)
+
+scrape_configs:
+  # Configuration pour les services exposant des métriques sur /actuator/prometheus
+  - job_name: "services"  # Nom du job pour identifier les services
+    static_configs:
+      - targets:
+          - "rest-service:8082"  # REST Service
+          - "soap-service:8080"  # SOAP Service
+          - "graphql-service:4000"  # GraphQL Service
+          - "grpc-service:8081"  # gRPC Service
+    metrics_path: /actuator/prometheus  # Chemin des métriques Prometheus exposées par Actuator
+
+  - job_name: 'jmeter'
+    static_configs:
+      - targets: ['host.docker.internal:9270']
